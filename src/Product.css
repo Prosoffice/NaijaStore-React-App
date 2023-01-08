@@ -13,18 +13,26 @@
 }
 
 .product > img {
-    max-height: 200px;
-    width: 100%;
+    height: 10rem;
+    width: 10rem;
     object-fit: contain;
     margin-bottom: 15px;
 }
 
 .product > button {
-    background: #f0c14b;
+    background: #F0EBCE;
     border: 1px solid;
+    border-radius: 5px;
     margin-top: 10px;
     border-color: #a88734 #9c7e31 #846a29;
     color: #111;
+    cursor: pointer;
+    width: 160px;
+    height: 30px;
+}
+
+.product > button:hover{
+    background: #4E6C50;
 }
 
 .product__rating {

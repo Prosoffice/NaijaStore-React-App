@@ -1,19 +1,40 @@
-import React from 'react'
 import './Header.css'
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { useStateValue } from './StateProvider';
+import ProtectedRoute from "./ProtectedRoute";
+import getCurrentUser from "./utils";
+import {useEffect, useState} from "react";
 
 function Header() {
-
     const [{basket}, dispatch] = useStateValue()
-  return (
-    <div className='header'>
+    const [name, setName] = useState("Guest")
+    const [error, setError] = useStateValue("")
+
+    useEffect(() => {
+    // make a GET request to the API to fetch the array of items
+    fetch('http://localhost/api/v1/login/test-token', {
+      method: 'GET',
+      headers: {
+          'Authorization': `Bearer ${getCurrentUser()}`
+      },
+    }).then((response) => response.json())
+      .then((data) => {
+          console.log(data)
+          setName(data.full_name);
+      })
+      .catch((error) => {
+        setError(error)
+      });
+    }, []);
+
+    return (
+        <div className='header'>
         <Link to="/">
             <img
                 className='header__logo'
-                src="https://pngimg.com/uploads/amazon/amazon_PNG11.png" alt=''
+                src="https://i.ibb.co/4VgyYFJ/Naija-Store-logos.jpg" alt=''
             />
         </Link>
         
@@ -27,46 +48,64 @@ function Header() {
         </div>
 
         <div className='header__nav'>
-            <Link to='/login'>
+            <Link to='/login' style={{ color: 'inherit', textDecoration: 'inherit'}}>
             <div className='header__option'>
                 <span
                 className='header__optionLineOne'>
-                    Hello Guest
+                    Hello
                 </span>
 
                 <span
                 className='header__optionLineTwo'>
-                    Sign In
+                    {name}
                 </span>
             </div>
             </Link>
 
+            <Link to="/contact" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                <div className='header__option'>
+                    <span
+                    className='header__optionLineOne'>
+                        Reach out
+                    </span>
+
+                    <span
+                    className='header__optionLineTwo'>
+                        Contact
+                    </span>
+
+                </div>
+            </Link>
+
+            <Link to="/faq" style={{ color: 'inherit', textDecoration: 'inherit'}}>
             <div className='header__option'>
                 <span
                 className='header__optionLineOne'>
-                    Returns
+                    Frequently asked
                 </span>
 
                 <span
                 className='header__optionLineTwo'>
-                    & Orders
+                    Questions
                 </span>
-
             </div>
+            </Link>
 
+            <Link to="/about" style={{ color: 'inherit', textDecoration: 'inherit'}}>
             <div className='header__option'>
                 <span
                 className='header__optionLineOne'>
-                    Your
+                    Naijastore
                 </span>
 
                 <span
                 className='header__optionLineTwo'>
-                    Prime
+                    About
                 </span>
             </div>
+            </Link>
 
-            <Link to="/checkout">
+            <Link to="/checkout" style={{ color: 'inherit', textDecoration: 'inherit'}}>
                 <div className="header__optionBasket">
                     <ShoppingBasketIcon />
                     <span className="header__optionLineTwo 
@@ -82,4 +121,4 @@ function Header() {
   )
 }
 
-export default Header
+export default ProtectedRoute(Header);

@@ -1,0 +1,33 @@
+
+
+section{
+    margin-top: 250px;
+    margin-bottom: 200px;
+}
+
+.p_wrap_footer{
+    text-align: center;
+}
+
+.p_wrap_footer h1{
+    margin-top: 50px;
+    margin-right: 50px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    font-size: xxx-large;
+    color: #395144;
+}
+
+.p_wrap_footer p {
+    font-size: larger;
+    justify-content: center;
+    overflow-wrap: break-word;
+    padding-left: 100px;
+    padding-right: 100px;
+    color: #395144;
+    line-height: 30px;
+}
+
+.second_p {
+    margin-top: 20px;
+}

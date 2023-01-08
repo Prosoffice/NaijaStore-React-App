@@ -1,16 +1,41 @@
 import React from 'react'
 import "./Login.css"
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 
 function Login() {
-    const [email, setEmail] = useState('');
+    const history = useHistory();
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [grant_type, setGrantType] = useState(("password"))
+    const [error, setError] = useState(null);
 
     const signIn = e => {
         e.preventDefault();
 
-        // Fancy firebase login
+        const params = new URLSearchParams();
+        params.append('username', username);
+        params.append('password', password);
+
+        console.log(JSON.stringify({ username, password }))
+        // send a POST request to the server to log the user in
+        fetch('http://localhost/api/v1/login/access-token', {
+          method: 'POST',
+          body: params
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.detail) {
+                console.log(data)
+              alert(data.detail)
+            } else {
+                localStorage.setItem("user", JSON.stringify(data.access_token));
+                history.push('/')
+            }
+          })
+          .catch((error) => {
+            setError(error.message);
+          });
     }
 
     const register = e => {
@@ -24,7 +49,7 @@ function Login() {
             <Link to='/'>
                 <img
                     className="login__logo"
-                    src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1024px-Amazon_logo.svg.png'
+                    src='https://i.ibb.co/4VgyYFJ/Naija-Store-logos.jpg'
                     alt='' 
                 />
             </Link>
@@ -34,7 +59,7 @@ function Login() {
 
                 <form>
                     <h5>E-mail</h5>
-                    <input type='text' value={email} onChange = {e => setEmail(e.target.value)}/>
+                    <input type='text' value={username} onChange = {e => setUsername(e.target.value)}/>
 
                     <h5>Password</h5>
                     <input type='password' value={password} onChange = {e => setPassword(e.target.value)}/>
@@ -43,11 +68,10 @@ function Login() {
                 </form>
 
                 <p>
-                    By signing-in you agree to the AMAZON FAKE CLONE Conditions of Use & Sale. Please
-                    see our Privacy Notice, our Cookies Notice and our Interest-Based Ads Notice.
+                    By signing-in you agree to the NaijaStore terms of service.
                 </p>
 
-                <button onClick={register} className='login__registerButton'>Create your Amazon Account</button>
+                <button onClick={register} type='submit' className='login__signInButton'><strong>Create your NaijaStore Account</strong></button>
             </div>
         </div>
     )

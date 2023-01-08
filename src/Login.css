@@ -1,4 +1,3 @@
-
 .login {
     background-color: white;
     height: 100vh;
@@ -10,13 +9,13 @@
 .login__logo {
     margin-top: 20px;
     margin-bottom: 20px;
-    object-fit: contain;
-    width: 100px;
+    object-fit: cover;
+    width: 150px;
     margin-right: auto;
     margin-left: auto;
   }
 
-  .login__container {
+.login__container {
     width: 300px;
     height: fit-content;
     display: flex;
@@ -48,14 +47,20 @@
 }
 
 .login__signInButton {
-    background: #f0c14b;
+    cursor: pointer;
+    background: #395144;
     border-radius: 2px;
     width: 100%;
     height: 30px;
     border: 1px solid;
     margin-top: 10px;
     border-color: #a88734 #9c7e31 #846a29;
-  }
+    color: white;
+}
+
+.login__signInButton:hover{
+    background: #4E6C50;
+}
 
   .login__registerButton {
     border-radius: 2px;
